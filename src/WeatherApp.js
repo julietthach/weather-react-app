@@ -1,4 +1,4 @@
-import "./styles.css";
+import "./App.css";
 import React, { useState, useRef } from "react";
 import axios from "axios";
 import Container from 'react-bootstrap/Container';
@@ -9,6 +9,7 @@ import Form from 'react-bootstrap/Form';
 
 export default function WeatherApp() {
   const [forecast, setForecast] = useState(null);
+  // const [unit, setUnit] = useState();
   const iconRef = useRef("");
   const forecastUrlRef = useRef("");
   const iconUrl = `http://openweathermap.org/img/wn/${iconRef.current}@2x.png`;
@@ -21,6 +22,14 @@ export default function WeatherApp() {
       iconRef.current = response.data.weather[0].icon;
     });
   }
+
+  // function convertTemperatureUnit(event) {
+  //   event.preventDefault();
+  //   console.log(unit)
+  //   let fahrenheit = Math.round(props.temperature / (9 * 5) - 32);
+  //   let celsius = Math.round(props.temperature * (9 / 5) + 32);
+    
+  // }
 
   return (
     <div className="WeatherWidget">
@@ -41,13 +50,14 @@ export default function WeatherApp() {
       <ul>
         {forecast ? (
           <Row >
-          <Col>
+          <Col className="weather-temperature">
+          <h2>City</h2>
             <li>
               <img src={iconUrl} alt="" />
             </li>
-            <li>Temperature: {Math.round(forecast.main.temp)}°C</li>
+            <h1>{Math.round(forecast.main.temp)}°C</h1>
             </Col>
-            <Col>
+            <Col className="weather-description">
             <li>Description: {forecast.weather[0].description}</li>
             <li>Humidity: {forecast.main.humidity}%</li>
             <li>Wind: {forecast.wind.speed}km/h</li>
@@ -62,25 +72,3 @@ export default function WeatherApp() {
     
   );
 }
-
-//     <Container className="Forecast">
-//       <Row>
-//         <Col>
-//           <h2 className="city">Toronto</h2>
-//           <img className="icon" src={cloudImage} alt="" />
-//           <h1>20</h1>
-//         </Col>
-//         <Col>
-//           <ul>
-//             <li>Description:</li>
-//             <li>Humidity:</li>
-//             <li>Wind:</li>
-//           </ul>
-//         </Col>
-//       </Row>
-//     </Container>
-//     </div>  
-
-
-//   );
-// } */}
