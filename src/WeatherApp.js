@@ -9,27 +9,24 @@ import Form from 'react-bootstrap/Form';
 
 export default function WeatherApp() {
   const [forecast, setForecast] = useState(null);
-  // const [unit, setUnit] = useState();
+  const [city, setCity] = useState("");
   const iconRef = useRef("");
   const forecastUrlRef = useRef("");
   const iconUrl = `http://openweathermap.org/img/wn/${iconRef.current}@2x.png`;
+
 
   function handleSubmit(event) {
     event.preventDefault();
     forecastUrlRef.current = `https://api.openweathermap.org/data/2.5/weather?q=${event.target.city.value}&units=metric&appid=2b6fdad0cbd018949c50c70f72250726`;
     axios.get(forecastUrlRef.current).then((response) => {
       setForecast(response.data);
+      setCity(response.data.name);
+      console.log(response)
       iconRef.current = response.data.weather[0].icon;
     });
   }
 
-  // function convertTemperatureUnit(event) {
-  //   event.preventDefault();
-  //   console.log(unit)
-  //   let fahrenheit = Math.round(props.temperature / (9 * 5) - 32);
-  //   let celsius = Math.round(props.temperature * (9 / 5) + 32);
-    
-  // }
+
 
   return (
     <div className="WeatherWidget">
@@ -51,7 +48,7 @@ export default function WeatherApp() {
         {forecast ? (
           <Row >
           <Col className="weather-temperature">
-          <h2>City</h2>
+          <h2>{city}</h2>
             <li>
               <img src={iconUrl} alt="" />
             </li>
