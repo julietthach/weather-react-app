@@ -26,23 +26,22 @@ export default function WeatherApp() {
     });
   }
 
-
-
   return (
     <div className="WeatherWidget">
-    <Container className="Search">
-      <Form onSubmit={handleSubmit}>
-      <Row>
-            <Col md={8}><Form.Control input type="text" id="city" name="city" placeholder="Type a city.." /></Col>
-            <Col sm={4}><Button variant="primary" input type="submit" value="Search">
-            Search
-            </Button>
-            <Button variant="primary" type="submit">
-            °F/°C
-            </Button></Col>
-          </Row>
-      </Form>
-    </Container>
+<Container className="Search">
+  <Form onSubmit={handleSubmit}>
+    <Row>
+      <Col md={7}>
+        <Form.Control input type="text" id="city" name="city" placeholder="Type a city.." />
+      </Col>
+      <Col md={5}>
+        <Button input type="submit" value="Search" className="searchButton">Search</Button>
+        <Button type="submit" className="metricButton">Metric</Button>
+        <Button type="submit" className="imperialButton">Imperial</Button>
+      </Col>
+    </Row>
+  </Form>
+</Container>
     <Container className="Forecast">
       <ul>
         {forecast ? (

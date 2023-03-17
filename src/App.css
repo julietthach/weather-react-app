@@ -16,7 +16,29 @@
 }
 
 .Search button {
-  margin: 0 8px;
+  margin: 0 6px;
+  padding: 8px 13px;
+}
+
+button:hover {
+  transition-duration: 0.4s;
+  box-shadow: 0 5px 5px 0 rgba(0,0,0,0.24), 0 5px 5px 0 rgba(0,0,0,0.19);
+}
+
+.Search .searchButton {
+  background-color: rgb(51, 89, 133);
+  border: none;
+}
+
+
+.Search .metricButton {
+  background-color: rgb(100, 99, 99);
+  border: none;
+}
+
+.Search .imperialButton {
+  background-color: rgb(100, 99, 99);
+  border: none;
 }
 
 .Forecast {
