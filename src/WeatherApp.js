@@ -68,7 +68,7 @@ export default function WeatherApp() {
       </Col>
       <Col md={5}>
         <Button input type="submit" value="Search" className="searchButton">Search</Button>
-        <Button type="button" onClick={toggleUnit} className={unit === "metric" ? "metricButton" : "imperialButton"}>°C / °F</Button>
+        <Button type="button" onClick={toggleUnit} className={unit === "metric" ? "metricButton" : "imperialButton"}>Change Unit</Button>
       </Col>
     </Row>
   </Form>
@@ -85,7 +85,7 @@ export default function WeatherApp() {
             <h1>{temperature}{unit === "metric" ? "°C" : "°F"}</h1>
             </Col>
             <Col className="weather-description">
-            <li><h3>{(forecast.weather[0].description.charAt(0).toUpperCase() + forecast.weather[0].description.slice(1))}</h3></li>
+            <li>{(forecast.weather[0].description.charAt(0).toUpperCase() + forecast.weather[0].description.slice(1))}</li>
             <li>Humidity: {forecast.main.humidity}%</li>
             <li>Wind: {windSpeed} {unit === 'metric' ? 'km/h' : 'mph' }</li>
             </Col>

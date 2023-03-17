@@ -32,12 +32,12 @@ button:hover {
 
 
 .Search .metricButton {
-  background-color: rgb(202, 106, 27);
+  background-color: rgb(57, 138, 61);
   border: none;
 }
 
 .Search .imperialButton {
-  background-color: rgb(57, 138, 61);
+  background-color: rgb(202, 106, 27);
   border: none;
 }
 
