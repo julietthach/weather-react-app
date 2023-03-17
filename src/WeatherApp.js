@@ -1,6 +1,7 @@
 import "./App.css";
 import React, { useState, useRef } from "react";
 import axios from "axios";
+import FormattedDate from "./FormattedDate"
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -78,14 +79,15 @@ export default function WeatherApp() {
         {forecast ? (
           <Row >
           <Col className="weather-temperature">
-          <h2>{city}</h2>
+          <li>{city}</li>
+          <li className="Date"><FormattedDate date={new Date(forecast.dt * 1000)}/></li>
+          <li className="text-capitalize">{(forecast.weather[0].description)}</li>
             <li>
               <img src={iconUrl} alt="" />
             </li>
-            <h1>{temperature}{unit === "metric" ? "°C" : "°F"}</h1>
+            <li>{temperature}{unit === "metric" ? "°C" : "°F"}</li>
             </Col>
             <Col className="weather-description">
-            <li>{(forecast.weather[0].description.charAt(0).toUpperCase() + forecast.weather[0].description.slice(1))}</li>
             <li>Humidity: {forecast.main.humidity}%</li>
             <li>Wind: {windSpeed} {unit === 'metric' ? 'km/h' : 'mph' }</li>
             </Col>

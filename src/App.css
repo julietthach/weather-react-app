@@ -55,6 +55,7 @@ button:hover {
   justify-content: center;
   align-self: center;
   text-align: left;
+  font-size: 20px;
 }
 
 .Forecast .weather-description {
