@@ -6,7 +6,7 @@ function App() {
   return (
     <div className="App">
       <WeatherApp />
-      <small class="footer"><a href="https://github.com/julietthach/weather-react-app" target="_blank" rel="noreferrer" >Open-source code</a>, by Thi Thach</small>
+      <small className="footer">✌️ This website was coded by <a href="https://www.linkedin.com/in/thi-thach/" target="_blank" alt="" rel="noreferrer">Thi Thach</a>, and is <a href="https://github.com/julietthach/weather-react-app" target="_blank" rel="noreferrer" >open-sourced</a></small>
     </div>
   );
 }
