@@ -51,20 +51,6 @@ button:hover {
   height: 100%;
 }
 
-.Forecast .weather-temperature {
-  justify-content: center;
-  align-self: center;
-  text-align: left;
-  font-size: 20px;
-}
-
-.Forecast .weather-description {
-  justify-content: center;
-  align-self: center;
-  text-align: right;
-  font-size: 20px;
-}
-
 .Forecast img {
   max-width: 50%;
 }

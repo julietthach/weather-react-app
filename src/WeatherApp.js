@@ -2,6 +2,7 @@ import "./App.css";
 import React, { useState, useRef } from "react";
 import axios from "axios";
 import FormattedDate from "./FormattedDate"
+import WeatherIcon from "./WeatherIcon"
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -11,12 +12,12 @@ import Form from 'react-bootstrap/Form';
 export default function WeatherApp() {
   const [forecast, setForecast] = useState(null);
   const [city, setCity] = useState("");
+  const [country, setCountry] = useState("");
   const [temperature, setTemperature] = useState(null);
   const [windSpeed, setWindSpeed] = useState(null);
   const [unit, setUnit] = useState("metric");
   const iconRef = useRef("");
   const forecastUrlRef = useRef("");
-  const iconUrl = `http://openweathermap.org/img/wn/${iconRef.current}@2x.png`;
 
     // Get weather data from API, then set forecast
   function handleSubmit(event) {
@@ -26,6 +27,8 @@ export default function WeatherApp() {
       iconRef.current = response.data.weather[0].icon;
       setForecast(response.data);
       setCity(response.data.name);
+      setCountry(response.data.sys.country)
+      console.log(response.data)
       
       // If unit is imperial, set temperature to fahrenheit, and set wind speed unit to mph
       if (unit === "imperial") {
@@ -74,29 +77,30 @@ export default function WeatherApp() {
     </Row>
   </Form>
 </Container>
-    <Container className="Forecast">
-      <ul>
+    
         {forecast ? (
-          <Row >
-          <Col className="weather-temperature">
-          <li>{city}</li>
+          <Container className="Forecast">
+          
+          <Row ><ul>
+          <Col >
+          <li className="location">{city}, {country}</li>
           <li className="Date"><FormattedDate date={new Date(forecast.dt * 1000)}/></li>
-          <li className="text-capitalize">{(forecast.weather[0].description)}</li>
+          <li className="text-capitalize weather-details">{forecast.weather[0].description}</li>
             <li>
-              <img src={iconUrl} alt="" />
+              <WeatherIcon code={iconRef.current} />
             </li>
             <li>{temperature}{unit === "metric" ? "°C" : "°F"}</li>
             </Col>
-            <Col className="weather-description">
+            <Col>
             <li>Humidity: {forecast.main.humidity}%</li>
             <li>Wind: {windSpeed} {unit === 'metric' ? 'km/h' : 'mph' }</li>
             </Col>
-            </Row>
+          </ul></Row>
+          </Container>
         ) : (
           <></>
         )}
-      </ul>
-    </Container>
+
     </div>
     
   );
