@@ -1,7 +1,8 @@
 import "./App.css";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import FormattedDate from "./FormattedDate"
+import WeatherForecastDay from "./WeatherForecastDay"
 import WeatherIcon from "./WeatherIcon"
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -11,24 +12,39 @@ import Form from 'react-bootstrap/Form';
 
 export default function WeatherApp() {
   const [forecast, setForecast] = useState(null);
+  const [dailyForecast, setDailyForecast] = useState(null);
   const [city, setCity] = useState("");
   const [country, setCountry] = useState("");
+  const [coordinates, setCoordinates] = useState(null);
   const [temperature, setTemperature] = useState(null);
   const [windSpeed, setWindSpeed] = useState(null);
   const [unit, setUnit] = useState("metric");
-  const iconRef = useRef("");
-  const forecastUrlRef = useRef("");
+  let iconRef = useRef("");
+  let forecastUrlRef = useRef("");
+
+
+  useEffect(() => {
+  
+    if (city !== "") {
+      let dailyForecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${coordinates.lat}&lon=${coordinates.lon}&units=metric&appid=e6c2364656962bdcb16bc352fc42569a`;
+     
+      axios.get(dailyForecastUrl).then((response) => {
+        setDailyForecast(response.data);
+      });
+    }
+    
+  }, [coordinates]);
 
     // Get weather data from API, then set forecast
   function handleSubmit(event) {
     event.preventDefault();
-    forecastUrlRef.current = `https://api.openweathermap.org/data/2.5/weather?q=${event.target.city.value}&units=metric&appid=2b6fdad0cbd018949c50c70f72250726`;
+    forecastUrlRef.current = `https://api.openweathermap.org/data/2.5/weather?q=${event.target.city.value}&units=metric&appid=e6c2364656962bdcb16bc352fc42569a`;
     axios.get(forecastUrlRef.current).then((response) => {
       iconRef.current = response.data.weather[0].icon;
       setForecast(response.data);
       setCity(response.data.name);
       setCountry(response.data.sys.country)
-      console.log(response.data)
+      setCoordinates(response.data.coord)
       
       // If unit is imperial, set temperature to fahrenheit, and set wind speed unit to mph
       if (unit === "imperial") {
@@ -80,22 +96,28 @@ export default function WeatherApp() {
     
         {forecast ? (
           <Container className="Forecast">
-          
-          <Row ><ul>
-          <Col >
+          <Row className="locationDetails"><ul>
           <li className="location">{city}, {country}</li>
           <li className="Date"><FormattedDate date={new Date(forecast.dt * 1000)}/></li>
-          <li className="text-capitalize weather-details">{forecast.weather[0].description}</li>
-            <li>
+          <li className="text-capitalize">{forecast.weather[0].description}</li>
+          </ul></Row>
+          <Row className="weatherDetails">
+            <Col xs={2}>
               <WeatherIcon code={iconRef.current} />
-            </li>
-            <li>{temperature}{unit === "metric" ? "°C" : "°F"}</li>
+            </Col>
+            <Col xs={5}>
+            <span className="temperature">{temperature}{unit === "metric" ? "°C" : "°F"}</span>
             </Col>
             <Col>
+            <ul>
             <li>Humidity: {forecast.main.humidity}%</li>
-            <li>Wind: {windSpeed} {unit === 'metric' ? 'km/h' : 'mph' }</li>
+            <li>Wind: {windSpeed} {unit === 'metric' ? 'km/h' : 'mph' }</li></ul>
             </Col>
-          </ul></Row>
+          </Row>
+          <Row className="forecastDetails">
+          <Col><WeatherForecastDay data={dailyForecast} day={0}/></Col>
+
+          </Row>
           </Container>
         ) : (
           <></>

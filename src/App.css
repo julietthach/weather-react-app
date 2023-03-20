@@ -43,16 +43,51 @@ button:hover {
 
 .Forecast {
   padding-top: 30px;
-  text-align: center;
 }
 
 .Forecast ul {
   list-style: none;
-  height: 100%;
 }
 
-.Forecast img {
-  max-width: 50%;
+.locationDetails {
+  text-align: left;
+  font-size: 18px;
+  color: #48494b;
+}
+
+.location {
+  font-weight: 600;
+  font-size: 26px;
+}
+
+.weatherDetails {
+  text-align: left;
+  margin-top: 6px;
+  color: #2b2c2e;
+  font-size: 18px;
+}
+
+.temperature {
+  font-size: 55px;
+  font-weight: 500;
+}
+
+.forecastDetails {
+  text-align: center;
+  margin-top: 32px;
+  color: #474749;
+}
+
+.forecastDay {
+  font-weight: 500;
+}
+.forecastTemp-max {
+  font-weight: 500;
+}
+.forecastTemp-min {
+  margin-left: 4px;
+  font-weight: 400;
+  color: #454547;
 }
 
 .footer {
