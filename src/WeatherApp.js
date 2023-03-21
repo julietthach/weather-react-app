@@ -21,30 +21,29 @@ export default function WeatherApp() {
   const [unit, setUnit] = useState("metric");
   let iconRef = useRef("");
   let forecastUrlRef = useRef("");
-
+  const apiKey = `bf54175800a55e59e6c4d6461deeef12`
 
   useEffect(() => {
-  
     if (city !== "") {
-      let dailyForecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${coordinates.lat}&lon=${coordinates.lon}&units=metric&appid=e6c2364656962bdcb16bc352fc42569a`;
-     
+      let dailyForecastUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&exclude=current,minutely,hourly,alerts&appid=${apiKey}&units=metric`;
       axios.get(dailyForecastUrl).then((response) => {
-        setDailyForecast(response.data);
+        setDailyForecast(response.data.daily);
       });
+
     }
     
-  }, [coordinates]);
+  }, [coordinates, city, apiKey]);
 
     // Get weather data from API, then set forecast
   function handleSubmit(event) {
     event.preventDefault();
-    forecastUrlRef.current = `https://api.openweathermap.org/data/2.5/weather?q=${event.target.city.value}&units=metric&appid=e6c2364656962bdcb16bc352fc42569a`;
+    forecastUrlRef.current = `https://api.openweathermap.org/data/2.5/weather?q=${event.target.city.value}&units=metric&appid=${apiKey}`;
     axios.get(forecastUrlRef.current).then((response) => {
       iconRef.current = response.data.weather[0].icon;
       setForecast(response.data);
       setCity(response.data.name);
-      setCountry(response.data.sys.country)
-      setCoordinates(response.data.coord)
+      setCountry(response.data.sys.country);
+      setCoordinates(response.data.coord);
       
       // If unit is imperial, set temperature to fahrenheit, and set wind speed unit to mph
       if (unit === "imperial") {
@@ -77,7 +76,9 @@ export default function WeatherApp() {
     setTemperature(metricTemp);
     setWindSpeed(metricWind)
   }
- 
+
+
+
   return (
     <div className="WeatherWidget">
 <Container className="Search">
@@ -115,8 +116,19 @@ export default function WeatherApp() {
             </Col>
           </Row>
           <Row className="forecastDetails">
-          <Col><WeatherForecastDay data={dailyForecast} day={0}/></Col>
-
+            {dailyForecast !== null ? 
+            <>
+              
+              <Col><WeatherForecastDay data={dailyForecast[1]}/></Col>
+              <Col><WeatherForecastDay data={dailyForecast[2]}/></Col>
+              <Col><WeatherForecastDay data={dailyForecast[3]}/></Col>
+              <Col><WeatherForecastDay data={dailyForecast[4]}/></Col>
+              <Col><WeatherForecastDay data={dailyForecast[5]}/></Col>
+            </>
+            : 
+            <></>
+            }
+         
           </Row>
           </Container>
         ) : (
