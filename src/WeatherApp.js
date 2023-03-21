@@ -27,12 +27,12 @@ export default function WeatherApp() {
     if (city !== "") {
       let dailyForecastUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&exclude=current,minutely,hourly,alerts&appid=${apiKey}&units=metric`;
       axios.get(dailyForecastUrl).then((response) => {
-        setDailyForecast(response.data.daily);
+        setDailyForecast(response.data.daily.slice(1, 6));
       });
 
     }
     
-  }, [coordinates, city, apiKey]);
+  }, [coordinates, city, apiKey, unit]);
 
     // Get weather data from API, then set forecast
   function handleSubmit(event) {
@@ -63,18 +63,21 @@ export default function WeatherApp() {
     let imperialTemp = Math.round((forecast.main.temp * 9/5) + 32);
     let metricWind = Math.round(forecast.wind.speed);
     let imperialWind = Math.round(forecast.wind.speed * 0.609344
+
+
+    
       );
  
     if (unit === "metric") {
       setUnit("imperial");
       setTemperature(imperialTemp);
-      setWindSpeed(imperialWind)
+      setWindSpeed(imperialWind);
       return;
     }
 
     setUnit("metric");
     setTemperature(metricTemp);
-    setWindSpeed(metricWind)
+    setWindSpeed(metricWind);
   }
 
 
@@ -104,7 +107,7 @@ export default function WeatherApp() {
           </ul></Row>
           <Row className="weatherDetails">
             <Col xs={2}>
-              <WeatherIcon code={iconRef.current} />
+              <WeatherIcon code={iconRef.current} size={80} />
             </Col>
             <Col xs={5}>
             <span className="temperature">{temperature}{unit === "metric" ? "°C" : "°F"}</span>
@@ -115,21 +118,21 @@ export default function WeatherApp() {
             <li>Wind: {windSpeed} {unit === 'metric' ? 'km/h' : 'mph' }</li></ul>
             </Col>
           </Row>
-          <Row className="forecastDetails">
             {dailyForecast !== null ? 
             <>
-              
-              <Col><WeatherForecastDay data={dailyForecast[1]}/></Col>
-              <Col><WeatherForecastDay data={dailyForecast[2]}/></Col>
-              <Col><WeatherForecastDay data={dailyForecast[3]}/></Col>
-              <Col><WeatherForecastDay data={dailyForecast[4]}/></Col>
-              <Col><WeatherForecastDay data={dailyForecast[5]}/></Col>
+            <Row className="forecastDetails">
+              {dailyForecast.map((dailyForecast, index) => {
+                  return (
+                    <Col key={index}>
+                    <WeatherForecastDay data={dailyForecast} unit={unit}/></Col>
+                  );
+              })}
+              </Row>
             </>
             : 
             <></>
             }
          
-          </Row>
           </Container>
         ) : (
           <></>
